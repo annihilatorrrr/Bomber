@@ -33,12 +33,13 @@ func main() {
 	if err != nil {
 		pauses(err.Error(), 1)
 	}
-	log.Println("Hello!\nI'm a CALL Bomber app made in Golang :)")
+	log.Println("Hello!\nI'm a CALL Bomber app made in Golang :)\n\nChecking Internet ...")
 	get, err := http.Get("https://www.google.com")
 	if err != nil {
 		pauses(err.Error(), 1)
 	}
 	_ = get.Body.Close()
+	log.Println("Connection was Success to internet!")
 	var phoneNumber string
 	fmt.Print("Enter phone number with the international code without spaces you would like to CALL BOMB:\n")
 	if _, err = fmt.Scan(&phoneNumber); err != nil {
