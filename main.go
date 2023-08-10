@@ -55,7 +55,7 @@ func main() {
 	}
 	var typeofc int
 	fmt.Print("Enter the type of call you would like to BOMB; Enter 1 or 2, 1 is using post and 2 is using get method:\n")
-	if _, err = fmt.Scan(&times); err != nil {
+	if _, err = fmt.Scan(&typeofc); err != nil {
 		pauses(err.Error(), 1)
 	}
 	if typeofc == 1 {
