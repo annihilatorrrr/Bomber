@@ -41,7 +41,7 @@ func main() {
 	_ = get.Body.Close()
 	log.Println("Connection was Success to internet!")
 	var phoneNumber string
-	fmt.Print("Enter phone number with the international code without spaces you would like to CALL BOMB:\n")
+	fmt.Print("Enter phone number without the international code and no spaces in between, you would like to CALL BOMB:\n")
 	if _, err = fmt.Scan(&phoneNumber); err != nil {
 		pauses(err.Error(), 1)
 	}
