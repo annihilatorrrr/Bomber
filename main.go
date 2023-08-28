@@ -87,7 +87,6 @@ func main() {
 			if err != nil {
 				pauses(err.Error(), 1)
 			}
-			log.Println(i)
 			_ = resp.Body.Close()
 			if i+1 == times {
 				break
