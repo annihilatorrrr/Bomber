@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"runtime"
 	"time"
 )
 
@@ -27,12 +28,14 @@ func main() {
 	if pass != "heck" {
 		pauses("Password is incorrect!", 1)
 	}
-	cmd := exec.Command("cmd", "/c", "cls")
-	cmd.Stdout = os.Stdout
-	err := cmd.Run()
-	if err != nil {
-		pauses(err.Error(), 1)
+	var cmd *exec.Cmd
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("cmd", "/c", "cls")
+	} else {
+		cmd = exec.Command("clear")
 	}
+	cmd.Stdout = os.Stdout
+	_ = cmd.Run()
 	log.Println("Hello!\nI'm a CALL Bomber app made in Golang :)\n\nChecking Internet ...")
 	get, err := http.Get("https://www.google.com")
 	if err != nil {
@@ -79,6 +82,7 @@ func main() {
 			if i+1 == times {
 				break
 			}
+			log.Println(i)
 			time.Sleep(15 * time.Second)
 		}
 	} else if typeofc == 2 {
@@ -91,6 +95,7 @@ func main() {
 			if i+1 == times {
 				break
 			}
+			log.Println(i)
 			time.Sleep(15 * time.Second)
 		}
 	} else if typeofc == 3 {
@@ -109,6 +114,7 @@ func main() {
 			if i+1 == times {
 				break
 			}
+			log.Println(i)
 			time.Sleep(15 * time.Second)
 		}
 	} else {
